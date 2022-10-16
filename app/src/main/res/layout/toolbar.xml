@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/black">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/marvel_logo"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter" />
+
+    <ImageView
+        android:id="@+id/search_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_search"
+        android:layout_marginEnd="4dp"
+        android:padding="8dp"
+        android:layout_gravity="end"
+        android:scaleType="fitCenter"/>
+
+</com.google.android.material.appbar.MaterialToolbar>
