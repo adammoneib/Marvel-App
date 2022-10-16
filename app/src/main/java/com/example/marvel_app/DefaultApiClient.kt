@@ -59,8 +59,8 @@ object DefaultApiClient {
     }
 
     private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
-    private const val PUBLIC_KEY = "e6a473569901b4b6b1a43e6a61a41320"
-    private const val PRIVATE_KEY = "05354fbe80961430a606d476856186600d56be38"
+    private const val PUBLIC_KEY = ""
+    private const val PRIVATE_KEY = ""
 
     @Volatile
     private var INSTANCE: Retrofit? = null
