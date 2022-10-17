@@ -1,19 +1,24 @@
-package com.example.marvel_app.list.ui
+package com.example.marvel_app.list.ui.search
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.marvel_app.databinding.ActivityMainBinding
-import com.example.marvel_app.list.domain.Hero
-import com.example.marvel_app.list.ui.adapter.HeroesListAdapter
-import com.example.marvel_app.list.ui.search.SearchActivity
+import com.example.marvel_app.R
+import com.example.marvel_app.databinding.ActivitySearchBinding
+import com.example.marvel_app.list.ui.HeroesViewState
+import com.example.marvel_app.list.ui.MainViewModel
+import com.example.marvel_app.list.ui.MainViewModelProvider
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var listAdapter: HeroesListAdapter
+class SearchActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySearchBinding
+    private lateinit var searchListAdapter: SearchListAdapter
     private lateinit var mainViewModel: MainViewModel
 
     private var currentPage = 1
@@ -22,23 +27,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        initUI()
+        initUi()
         initData()
+
     }
 
-    private fun initUI() {
-        listAdapter = HeroesListAdapter { openDetails(it) }
+    private fun initUi() {
+        searchListAdapter = SearchListAdapter()
         binding.heroesRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = listAdapter
+            layoutManager = LinearLayoutManager(this@SearchActivity)
+            adapter = searchListAdapter
             setHasFixedSize(true)
             handleLoadMoreListener()
         }
-        binding.toolbar.searchIcon.setOnClickListener{
-            openSearchActivity()
+
+        binding.toolbar.searchView.doOnTextChanged { text, start, before, count ->
+            mainViewModel.getHeroes(1, text.toString())
+        }
+
+        binding.toolbar.cancelButton.setOnClickListener {
+            binding.toolbar.searchView.text.clear()
+            this.onBackPressed()
         }
     }
 
@@ -49,14 +60,16 @@ class MainActivity : AppCompatActivity() {
                 setViewState(it)
             }
         }
-        mainViewModel.getHeroes(currentPage, null)
     }
 
     private fun setViewState(state: HeroesViewState) {
         when (state) {
             HeroesViewState.Loading -> {}
             is HeroesViewState.Success -> {
-                listAdapter.submitList(state.heroesList)
+                if(state.heroesList.isEmpty()) {
+                    Toast.makeText(this, getString(R.string.empty_search), Toast.LENGTH_SHORT).show()
+                }
+                searchListAdapter.submitList(state.heroesList)
                 if (state.heroesList.size >= state.totalNumber) {
                     if (currentPage > 0) {
                         currentPage -= 1
@@ -68,14 +81,6 @@ class MainActivity : AppCompatActivity() {
             }
             HeroesViewState.Error -> {}
         }
-    }
-
-    private fun openDetails(hero: Hero) {
-
-    }
-
-    private fun openSearchActivity(){
-            startActivity(SearchActivity.getIntent(this))
     }
 
     private fun handleLoadMoreListener() {
@@ -111,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         fun getIntent(context: Context): Intent {
-            return Intent(context, MainActivity::class.java)
+            return Intent(context, SearchActivity::class.java)
         }
     }
 }

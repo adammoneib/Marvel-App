@@ -13,14 +13,15 @@ import com.example.marvel_app.list.domain.Hero
 class HeroesListAdapter(
     private val heroClicked : (Hero) -> Unit
 ): ListAdapter<Hero, RecyclerView.ViewHolder>(HeroesDiffUtil) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+
         return if (viewType == ViewType.VIEW_ITEM.ordinal) {
-            val itemView: View = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item, parent, false)
+            val itemView: View = inflater.inflate(R.layout.list_item, parent, false)
             ListItemViewHolder(ListItemBinding.bind(itemView))
         } else {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.loading_progress_item, parent, false)
+            val view = inflater.inflate(R.layout.loading_progress_item, parent, false)
             ProgressViewHolder(LoadingProgressItemBinding.bind(view))
         }
     }

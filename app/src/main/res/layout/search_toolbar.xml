@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/black">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="0.7"
+            android:drawableStart="@drawable/ic_action_search"
+            android:drawablePadding="2dp"
+            android:hint="@string/search"
+            android:textColor="@color/black"
+            android:background="@drawable/rounded_bg"
+            android:imeOptions="actionSearch"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/cancel_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:text="@string/cancel"
+            android:textColor="#FF0000" />
+    </LinearLayout>
+</com.google.android.material.appbar.MaterialToolbar>
