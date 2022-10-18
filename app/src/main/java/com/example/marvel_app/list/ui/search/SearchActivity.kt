@@ -24,6 +24,7 @@ class SearchActivity : AppCompatActivity() {
     private var currentPage = 1
     private var loading: Boolean = false
     private var stopLoadingMore: Boolean = false
+    private var searchQuery: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.toolbar.searchView.doOnTextChanged { text, start, before, count ->
+            searchQuery = text.toString()
             mainViewModel.currentList.clear()
 
             if(text?.isNotEmpty() == true) {
@@ -109,7 +111,7 @@ class SearchActivity : AppCompatActivity() {
                 if (!loading && totalItemCount <= lastVisibleItem + VISIBLE_THRESHOLD) {
                     if (!stopLoadingMore) {
                         currentPage++
-                        mainViewModel.getHeroes(currentPage, null)
+                        mainViewModel.getHeroes(currentPage, searchQuery)
                     }
                     loading = true
                 }
