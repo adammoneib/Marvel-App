@@ -44,12 +44,15 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.toolbar.searchView.doOnTextChanged { text, start, before, count ->
-            mainViewModel.getHeroes(1, text.toString())
+            mainViewModel.currentList.clear()
+
+            if(text?.isNotEmpty() == true) {
+                mainViewModel.getHeroes(1, text.toString())
+            }
         }
 
         binding.toolbar.cancelButton.setOnClickListener {
             binding.toolbar.searchView.text.clear()
-            this.onBackPressed()
         }
     }
 

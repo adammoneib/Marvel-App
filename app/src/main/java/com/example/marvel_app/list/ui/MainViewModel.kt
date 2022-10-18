@@ -11,7 +11,7 @@ class MainViewModel(
     private val heroesUseCase: GetHeroesUseCase
 ): ViewModel() {
 
-    private var currentList: MutableList<Hero> = mutableListOf()
+    var currentList: MutableList<Hero> = mutableListOf()
     companion object {
         private const val PAGE_LIMIT: Int = 20
     }
@@ -33,7 +33,7 @@ class MainViewModel(
             searchQuery = searchQuery
         ).doOnSuccess {
             currentList.addAll(it.second)
-            heroesLiveData.value = HeroesViewState.Success(currentList, it.first)
+            heroesLiveData.value = HeroesViewState.Success(currentList.toList(), it.first)
         }.doOnError {
             heroesLiveData.value = HeroesViewState.Error
         }.subscribe()

@@ -31,7 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.3"
+            android:textSize="16sp"
             android:text="@string/cancel"
+            android:textAllCaps="true"
             android:textColor="#FF0000" />
     </LinearLayout>
 </com.google.android.material.appbar.MaterialToolbar>
